@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+int main() {
+    int locks, stocks, barrels;
+    int totallocks = 0, totalstocks = 0, totalbarrels = 0;
+    const float lockprice = 45.0, stockprice = 30.0, barrelprice = 25.0;
+    float sales, commission;
+
+    printf("Enter the number of locks (to exit, press -1):\n");
+
+    while (scanf("%d", &locks), locks != -1) {
+        if (locks < 1 || locks > 70) {
+            printf("Locks must be in the range 1-70.\n");
+            continue;
+        }
+
+        printf("Enter the number of stocks and barrels:\n");
+        scanf("%d %d", &stocks, &barrels);
+
+        if (stocks < 1 || stocks > 80) {
+            printf("Stocks must be in the range 1-80.\n");
+            continue;
+        }
+
+        if (barrels < 1 || barrels > 90) {
+            printf("Barrels must be in the range 1-90.\n");
+            continue;
+        }
+
+        if (totallocks + locks > 70 || totalstocks + stocks > 80 || totalbarrels + barrels > 90) {
+            printf("Total exceeds allowed limits.\n");
+            continue;
+        }
+
+        totallocks += locks;
+        totalstocks += stocks;
+        totalbarrels += barrels;
+
+        printf("Total locks = %d, Total stocks = %d, Total barrels = %d\n", totallocks, totalstocks, totalbarrels);
+        printf("Enter the number of locks (to exit, press -1):\n");
+    }
+
+    sales = (totallocks * lockprice) + (totalstocks * stockprice) + (totalbarrels * barrelprice);
+    printf("Total sales = %.2f\n", sales);
+
+    commission = (sales > 1800) ? (0.10 * 1000 + 0.15 * 800 + 0.20 * (sales - 1800)) :
+                (sales > 1000) ? (0.10 * 1000 + 0.15 * (sales - 1000)) : (0.10 * sales);
+    
+    printf("Commission = %.2f\n", commission);
+    return 0;
+}
