@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+int is_leap(int year) {
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
+int is_valid_date(int day, int month, int year) {
+    if (year < 1812 || year > 2015 || month < 1 || month > 12 || day < 1) return 0;
+    if (month == 2) return day <= (is_leap(year) ? 29 : 28);
+    if (month == 4 || month == 6 || month == 9 || month == 11) return day <= 30;
+    return day <= 31;
+}
+
+int main() {
+    int day, month, year, tomm_day, tomm_month, tomm_year;
+    do {
+        printf("Enter today's date (dd mm yyyy): ");
+        scanf("%d %d %d", &day, &month, &year);
+    } while (!is_valid_date(day, month, year));
+
+    tomm_day = day;
+    tomm_month = month;
+    tomm_year = year;
+
+    if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 30 || 
+        (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && day == 31 ||
+        month == 2 && ((is_leap(year) && day == 29) || (!is_leap(year) && day == 28))) {
+        tomm_day = 1;
+        tomm_month = (month % 12) + 1;
+        if (tomm_month == 1) tomm_year++;
+    } else {
+        tomm_day++;
+    }
+
+    printf("Next day is: %d %d %d\n", tomm_day, tomm_month, tomm_year);
+    return 0;
+}
